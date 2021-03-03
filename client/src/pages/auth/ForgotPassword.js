@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 const ForgotPassword = ({ history }) => {
@@ -13,11 +13,11 @@ const ForgotPassword = ({ history }) => {
 
     useEffect(() => {
         if (user && user.token) history.push('/')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const handleSubmit = async (e) => {
         setLoading(true)
@@ -29,7 +29,7 @@ const ForgotPassword = ({ history }) => {
         };
 
 
-        const result = await auth.sendPasswordResetEmail(email, config)
+        await auth.sendPasswordResetEmail(email, config)
             .then(() => {
                 setLoading(false)
                 setEmail('')

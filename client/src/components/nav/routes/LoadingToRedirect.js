@@ -12,7 +12,7 @@ const LoadingToRedirect = () => {
         count === 0 && history.push('/')
         // eslint-disable-next-line react-hooks/exhaustive-deps
         return () => clearInterval(interval)
-    }, [count])
+    }, [count, history])
     return (
         <div className='container p-5 text-center'>
             <p>Redirecting you in {count} seconds</p>
