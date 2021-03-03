@@ -13,6 +13,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
+import History from "./pages/user/History";
+import UserRoute from "./components/nav/routes/UserRoute";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -50,10 +52,12 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
+        <UserRoute exact path="/user/history" component={History} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+
       </Switch>
     </>
   );
