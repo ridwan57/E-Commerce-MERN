@@ -6,6 +6,7 @@ import {
     getCategory,
     updateCategory
 } from "../../../functions/category";
+import CategoryForm from "../../../components/forms/CategoryForms";
 
 
 const CategoryUpdate = ({ history, match: { params } }) => {
@@ -46,23 +47,23 @@ const CategoryUpdate = ({ history, match: { params } }) => {
             });
     };
 
-    const categoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                    autoFocus
-                    required
-                />
-                <br />
-                <button disabled={loading} className="btn btn-outline-primary">Save</button>
-            </div>
-        </form>
-    );
+    // const categoryForm = () => (
+    //     <form onSubmit={handleSubmit}>
+    //         <div className="form-group">
+    //             <label>Name</label>
+    //             <input
+    //                 type="text"
+    //                 className="form-control"
+    //                 onChange={(e) => setName(e.target.value)}
+    //                 value={name}
+    //                 autoFocus
+    //                 required
+    //             />
+    //             <br />
+    //             <button disabled={loading} className="btn btn-outline-primary">Save</button>
+    //         </div>
+    //     </form>
+    // );
 
     return (
         <div className="container-fluid">
@@ -76,7 +77,11 @@ const CategoryUpdate = ({ history, match: { params } }) => {
                     ) : (
                         <h4>Create category</h4>
                     )}
-                    {categoryForm()}
+                    <CategoryForm
+                        handleSubmit={handleSubmit}
+                        name={name}
+                        setName={setName}
+                    />
                     <hr />
 
                 </div>
