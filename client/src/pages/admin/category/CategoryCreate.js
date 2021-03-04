@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import CategoryForm from "../../../components/forms/CategoryForms";
+import LocalSearch from "../../../components/forms/LocalSearch";
 
 const CategoryCreate = () => {
     const { user } = useSelector((state) => ({ ...state }));
@@ -88,15 +89,8 @@ const CategoryCreate = () => {
                         name={name}
                         setName={setName}
                     />
-                    <hr />
-                    <input
-                        type="search"
-                        placeholder='filter'
-                        value={keyword}
-                        onChange={(e) => setKeyword(e.target.value)}
-                        className='form-control mb-4'
-                    />
 
+                    <LocalSearch keyword={keyword} setKeyword={setKeyword} />
                     {categories.filter(searchCallBack(keyword)).map((c, id) => (
                         <div key={id} className='alert alert-secondary'>
                             {c.name} <span className='btn btn-sm float-right'>
