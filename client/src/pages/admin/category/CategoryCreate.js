@@ -24,6 +24,29 @@ const CategoryCreate = () => {
     const loadCategories = () =>
         getCategories().then((c) => setCategories(c.data));
 
+    const handleRemove = (slug) => {
+        let answer = window.confirm(`Are you sure you want to delete ${slug} ?`)
+        console.log(answer)
+        if (answer) {
+            setLoading(true)
+            removeCategory(slug, user.token)
+                .then(res => {
+                    console.log('res:', res)
+                    setLoading(false)
+                    toast.success(`${res.data.name} Deleted`)
+                    loadCategories()
+                })
+                .catch(err => {
+                    console.log('err:', err)
+                    setLoading(false)
+                    if (err.response.status === 400) toast.error(err.response.data);
+                    else toast.error(err.response.data);
+                })
+
+        }
+
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log(name);
@@ -34,6 +57,7 @@ const CategoryCreate = () => {
                 setLoading(false);
                 setName("");
                 toast.success(`"${res.data.name}" is created`);
+                loadCategories()
             })
             .catch((err) => {
                 console.log(err);
@@ -79,7 +103,9 @@ const CategoryCreate = () => {
                         <div key={id} className='alert alert-secondary'>
                             {c.name} <span className='btn btn-sm float-right'>
 
-                                <DeleteOutlined className='text-danger' /></span>{" "}
+                                <DeleteOutlined disabled={loading}
+                                    onClick={() => handleRemove(c.slug)}
+                                    className='text-danger' /></span>{" "}
                             <Link to={`/admin/category/${c.slug}`}>
 
 
