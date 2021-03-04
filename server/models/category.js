@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
 
 const categorySchema = new mongoose.Schema(
     {
         name: {
             type: String,
             trim: true,
-            required: 'Name is required',
-            minlength: [3, 'Too short'],
-            maxlength: [32, 'Too Long'],
+            unique: true,
+            required: "Name is required",
+            minlength: [2, "Too short"],
+            maxlength: [32, "Too long"],
         },
         slug: {
             type: String,
-            index: true,
+            unique: true,
             lowercase: true,
-            index: true
-        }
+            index: true,
+        },
     },
     { timestamps: true }
 );
