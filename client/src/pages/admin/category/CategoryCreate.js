@@ -15,6 +15,7 @@ const CategoryCreate = () => {
     const { user } = useSelector((state) => ({ ...state }));
 
     const [name, setName] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
 
@@ -68,8 +69,8 @@ const CategoryCreate = () => {
             });
     };
 
-  
 
+    const searchCallBack = (search) => (c) => c.name.toLowerCase().includes(search.toLowerCase())
     return (
         <div className="container-fluid">
             <div className="row">
@@ -88,7 +89,15 @@ const CategoryCreate = () => {
                         setName={setName}
                     />
                     <hr />
-                    {categories.map((c, id) => (
+                    <input
+                        type="search"
+                        placeholder='filter'
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        className='form-control mb-4'
+                    />
+
+                    {categories.filter(searchCallBack(keyword)).map((c, id) => (
                         <div key={id} className='alert alert-secondary'>
                             {c.name} <span className='btn btn-sm float-right'>
 
