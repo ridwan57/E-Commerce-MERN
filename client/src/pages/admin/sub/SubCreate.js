@@ -20,14 +20,19 @@ const SubCreate = () => {
     const [keyword, setKeyword] = useState("");
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [subs, setSubs] = useState([]);
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
         loadCategories();
+        loadSubs()
     }, []);
 
     const loadCategories = () =>
         getCategories().then((c) => setCategories(c.data));
+
+    const loadSubs = () =>
+        getSubs().then((c) => setSubs(c.data));
 
     const handleRemove = (slug) => {
         let answer = window.confirm(`Are you sure you want to delete ${slug} ?`)
@@ -38,8 +43,8 @@ const SubCreate = () => {
                 .then(res => {
                     console.log('res:', res)
                     setLoading(false)
-                    toast.success(`${res.data.name} Deleted`)
-                    // loadCategories()
+                    toast.error(`${res.data.name} Deleted`)
+                    loadSubs()
                 })
                 .catch(err => {
                     console.log('err:', err)
@@ -62,7 +67,7 @@ const SubCreate = () => {
                 setLoading(false);
                 setName("");
                 toast.success(`"${res.data.name}" is created`);
-                // loadCategories()
+                loadSubs()
             })
             .catch((err) => {
                 console.log(err);
@@ -103,7 +108,7 @@ const SubCreate = () => {
                         </select>
 
                     </div>
-                    {JSON.stringify(category)}
+
                     <CategoryForm
                         handleSubmit={handleSubmit}
                         name={name}
@@ -112,7 +117,7 @@ const SubCreate = () => {
 
 
                     <LocalSearch keyword={keyword} setKeyword={setKeyword} />
-                    {/* {categories.filter(searchCallBack(keyword)).map((c, id) => (
+                    {subs.filter(searchCallBack(keyword)).map((c, id) => (
                         <div key={id} className='alert alert-secondary'>
                             {c.name} <span className='btn btn-sm float-right'>
 
@@ -129,7 +134,7 @@ const SubCreate = () => {
                             </Link>
                         </div>
 
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </div>
