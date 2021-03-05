@@ -27,24 +27,24 @@ const productSchema = new mongoose.Schema(
             required: true,
             maxlength: 12,
         },
-        category:
-        {
-            type: ObjectId,
-            ref: 'Category',
-            required: true
-        },
-        subs: [{
-            type: ObjectId,
-            ref: 'Sub',
-        }],
+        // category:
+        // {
+        //     type: ObjectId,
+        //     ref: 'Category',
+        //     required: true
+        // },
+        // subs: [{
+        //     type: ObjectId,
+        //     ref: 'Sub',
+        // }],
         quantity: Number,
         sold: {
             type: Number,
             default: 0
         },
-        images: {
-            type: Array
-        },
+        // images: {
+        //     type: Array
+        // },
         shipping: {
             type: String,
             enum: ['Yes', 'No'],

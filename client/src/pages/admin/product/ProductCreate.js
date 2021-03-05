@@ -11,23 +11,24 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import AdminNav from "../../../components/nav/AdminNav";
 
 const initialState = {
-    title: "",
-    descriptioin: "",
-    price: "",
+    title: "Nokia x7",
+    description: "Best Phone",
+    price: "25500",
     categories: [],
     category: "",
     subs: [],
-    shipping: "",
-    quantity: "",
+    shipping: "Yes",
+    quantity: "50",
     images: [],
     colors: ["Black", "Brown", "Silver", "White", "Blue"],
     brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
-    color: "",
-    brand: "",
+    color: "Black",
+    brand: "Nokia",
 };
 
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState);
+    const { user } = useSelector(state => ({ ...state }))
 
     // destructure
     const {
@@ -48,10 +49,27 @@ const ProductCreate = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        createProduct(values, user.token)
+            .then(res => {
+
+                window.alert(`"${res.data.title}" is created`);
+                window.location.reload()
+            })
+            .catch(err => {
+                console.log(err);
+
+                if (err.response.status === 400) toast.error(err.response.data);
+                else toast.error(err.response.data);
+            })
         //
     };
 
     const handleChange = (e) => {
+        setValues((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+        // console.log(e.target.name, '------------', e.target.value)
         //
     };
 
@@ -65,6 +83,7 @@ const ProductCreate = () => {
                 <div className="col-md-10">
                     <h4>Product create</h4>
                     <hr />
+                    {JSON.stringify(values)}
 
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
