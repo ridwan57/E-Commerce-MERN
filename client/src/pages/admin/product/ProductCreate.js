@@ -10,7 +10,7 @@ import {
 
 import AdminNav from "../../../components/nav/AdminNav";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import { getCategories } from "../../../functions/category";
+import { getCategories, getCategorySubs } from "../../../functions/category";
 
 const initialState = {
     title: "Nokia x7",
@@ -31,7 +31,7 @@ const initialState = {
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState);
     const { user } = useSelector(state => ({ ...state }))
-    // const [categories, setCategories] = useState([]);
+    const [subOptions, setSubOptions] = useState([]);
 
     useEffect(() => {
         console.log('use effect product create')
@@ -55,6 +55,7 @@ const ProductCreate = () => {
 
                 window.alert(`"${res.data.title}" is created`);
                 window.location.reload()
+                setValues(initialState)
             })
             .catch(err => {
                 console.log(err);
@@ -70,7 +71,28 @@ const ProductCreate = () => {
         setValues((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
+
         }))
+        // console.log(e.target.name, '------------', e.target.value)
+        //
+    };
+
+    const handleCategoryChange = (e) => {
+        e.preventDefault()
+        console.log('handleCategoryChange', e.target.value)
+        setValues((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+            subs: []
+        }))
+        getCategorySubs(e.target.value).then(res => {
+
+            console.log(res.data)
+            setSubOptions(res.data)
+        })
+            .catch(err => {
+                console.log(err)
+            })
         // console.log(e.target.name, '------------', e.target.value)
         //
     };
@@ -90,8 +112,11 @@ const ProductCreate = () => {
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
                         values={values}
+                        handleCategoryChange={handleCategoryChange}
+                        subOptions={subOptions}
+                        setValues={setValues}
                     />
-                    {JSON.stringify(values.categories)}
+                    {JSON.stringify(values.subs)}
 
 
                 </div>

@@ -1,7 +1,10 @@
 import React from 'react'
+import { Typography, Select } from "antd";
 
+const { Option } = Select;
 const ProductCreateForm = (props) => {
-    const { handleSubmit, handleChange, values } = props
+
+    const { setValues, handleSubmit, handleChange, values, handleCategoryChange, subOptions } = props
     const {
         title,
         description,
@@ -112,7 +115,7 @@ const ProductCreateForm = (props) => {
             <div className='form-group'>
                 <label>Category</label>
                 <select name='category' className='form-control'
-                    onChange={handleChange}
+                    onChange={handleCategoryChange}
                 >
                     <option>Please Select</option>
                     {categories.length > 0 && categories.map((c, id) => (
@@ -125,6 +128,31 @@ const ProductCreateForm = (props) => {
                 </select>
 
             </div>
+
+            {subOptions.length > 0 &&
+                <div>
+                    <label>Sub Category</label>
+                    <Select
+                        mode="multiple"
+                        style={{ width: "100%" }}
+                        placeholder="Please select"
+                        defaultValue={["a10", "c12"]}
+                        onChange={val => setValues({ ...values, subs: val })}
+                        name='subs'
+                        value={subs}
+                    >
+                        {subOptions.map((c, id) => (
+                            <Option key={c._id} value={c._id}>{c.name}</Option>
+
+                        ))}
+
+                    </Select>
+                </div>
+            }
+
+
+
+
 
             <button className="btn btn-outline-info">Save</button>
         </form>
