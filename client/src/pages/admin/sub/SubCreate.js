@@ -124,7 +124,7 @@ const SubCreate = () => {
                                 <DeleteOutlined disabled={loading}
                                     onClick={() => handleRemove(c.slug)}
                                     className='text-danger' /></span>{" "}
-                            <Link to={`/admin/category/${c.slug}`}>
+                            <Link to={`/admin/sub/${c.slug}`}>
 
 
                                 <span className='btn btn-sm float-right'> <EditOutlined className='text-warning' /></span>{" "}
