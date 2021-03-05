@@ -2,6 +2,8 @@ import React from 'react'
 import Resizer from 'react-image-file-resizer';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
+import Avatar from 'antd/lib/avatar/avatar';
+import { toast } from 'react-toastify';
 
 const resizeFile = (file) => new Promise(resolve => {
     Resizer.imageFileResizer(file, 720, 720, 'JPEG', 100, 0,
@@ -33,6 +35,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                             }
                         }).then(res => {
                             console.log('IMAGE UPLOAD RES DATA', res)
+                            toast.success('Uploaded')
                             setLoading(false)
                             allUploadedFiles.push(res.data)
                         })
@@ -53,17 +56,40 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 
     }
     return (
-        <div className='row'>
-            <label className='btn btn-primary'>
-                Choose File
-            <input type='file'
-                    hidden
-                    multiple accept='images/*'
-                    onChange={fileUploadAndResize}
-                />
-            </label>
+        <>
 
-        </div>
+
+            <div className='row'>
+                <h1>Images: {values.images.length}</h1>
+                {values.images && values.images.map((image, i) => (
+                    <Avatar
+                        key={image.public_id} src={image.url} size={100}
+                        className='m-3'
+                    >
+                        Product Image
+                    </Avatar>
+
+
+                ))}
+
+            </div>
+            <div className='row'>
+                <label className='btn btn-primary'>
+                    Choose File
+            <input type='file'
+                        hidden
+                        multiple accept='images/*'
+                        onChange={fileUploadAndResize}
+                    />
+                </label>
+
+            </div>
+
+
+
+
+        </>
+
     )
 }
 
