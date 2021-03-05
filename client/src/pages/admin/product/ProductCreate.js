@@ -12,6 +12,7 @@ import AdminNav from "../../../components/nav/AdminNav";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
+import { Loading3QuartersOutlined, LoadingOutlined } from "@ant-design/icons";
 
 const initialState = {
     title: "Nokia x7",
@@ -22,7 +23,16 @@ const initialState = {
     subs: [],
     shipping: "Yes",
     quantity: "50",
-    images: [],
+    images: [
+        //     {
+        //     "public_id": "x0vydnubetho0d04tkfi",
+        //     "url": "https://res.cloudinary.com/dhhstdwuq/image/upload/v1614983744/x0vydnubetho0d04tkfi.jpg"
+        // },
+        // {
+        //     "public_id": "owjhdb8gzazgfwnddisf",
+        //     "url": "https://res.cloudinary.com/dhhstdwuq/image/upload/v1614983874/owjhdb8gzazgfwnddisf.jpg"
+        // }
+    ],
     colors: ["Black", "Brown", "Silver", "White", "Blue"],
     brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
     color: "Black",
@@ -34,6 +44,7 @@ const ProductCreate = () => {
     const { user } = useSelector(state => ({ ...state }))
     const [subOptions, setSubOptions] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [key, setKey] = useState("1")
 
     useEffect(() => {
         console.log('use effect product create')
@@ -107,17 +118,19 @@ const ProductCreate = () => {
                 </div>
 
                 <div className="col-md-10">
-                    <h4>Product create</h4>
+                    {loading ? <LoadingOutlined className='text-danger h1' /> : <h4>Product create</h4>}
                     <hr />
                     <div className='p-3'>
                         <FileUpload
+                            key={key}
+                            setKey={setKey}
                             values={values}
                             setValues={setValues}
                             setLoading={setLoading}
                         />
 
                     </div>
-                    {JSON.stringify(values.images)}
+
 
                     <ProductCreateForm
                         handleSubmit={handleSubmit}
