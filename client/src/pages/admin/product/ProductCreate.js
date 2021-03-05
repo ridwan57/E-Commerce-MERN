@@ -5,11 +5,12 @@ import {
     createProduct,
 
 } from "../../../functions/product";
-import { Link } from "react-router-dom";
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+
+
 
 import AdminNav from "../../../components/nav/AdminNav";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import { getCategories } from "../../../functions/category";
 
 const initialState = {
     title: "Nokia x7",
@@ -30,23 +31,22 @@ const initialState = {
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState);
     const { user } = useSelector(state => ({ ...state }))
+    // const [categories, setCategories] = useState([]);
 
-    // destructure
-    const {
-        title,
-        description,
-        price,
-        categories,
-        category,
-        subs,
-        shipping,
-        quantity,
-        images,
-        colors,
-        brands,
-        color,
-        brand,
-    } = values;
+    useEffect(() => {
+        console.log('use effect product create')
+        loadCategories();
+    }, []);
+
+    const loadCategories = () =>
+        getCategories().then((c) =>
+            setValues({ ...values, categories: c.data })
+
+
+        )
+            .catch(err => console.log(err))
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -91,6 +91,7 @@ const ProductCreate = () => {
                         handleChange={handleChange}
                         values={values}
                     />
+                    {JSON.stringify(values.categories)}
 
 
                 </div>
