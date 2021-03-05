@@ -33,6 +33,7 @@ const ProductCreate = () => {
     const [values, setValues] = useState(initialState);
     const { user } = useSelector(state => ({ ...state }))
     const [subOptions, setSubOptions] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         console.log('use effect product create')
@@ -109,9 +110,14 @@ const ProductCreate = () => {
                     <h4>Product create</h4>
                     <hr />
                     <div className='p-3'>
-                        <FileUpload />
+                        <FileUpload
+                            values={values}
+                            setValues={setValues}
+                            setLoading={setLoading}
+                        />
 
                     </div>
+                    {JSON.stringify(values.images)}
 
                     <ProductCreateForm
                         handleSubmit={handleSubmit}

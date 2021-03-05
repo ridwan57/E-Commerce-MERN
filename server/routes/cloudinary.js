@@ -1,16 +1,13 @@
-const express = require('express')
-const router = express.Router()
-// middlewares
+const express = require("express");
+const router = express.Router();
 
-const { authCheck, adminCheck } = require('../middlewares/auth');
+// middlewares
+const { authCheck, adminCheck } = require("../middlewares/auth");
 
 // controllers
+const { upload, remove } = require("../controllers/cloudinary");
 
+router.post("/uploadimages", authCheck, adminCheck, upload);
+router.post("/removeimage", authCheck, adminCheck, remove);
 
-const { upload, remove } = require('../controllers/cloudinary')
-//routes
-router.post('/uploadimages', authCheck, adminCheck, upload)
-router.post('/removeimage', authCheck, adminCheck, remove)
-
-
-module.exports = router
+module.exports = router;
