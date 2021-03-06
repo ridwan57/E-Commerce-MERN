@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema
+const { ObjectId } = mongoose.Schema;
+
 const productSchema = new mongoose.Schema(
     {
         title: {
@@ -7,7 +8,7 @@ const productSchema = new mongoose.Schema(
             trim: true,
             required: true,
             maxlength: 32,
-            text: true
+            text: true,
         },
         slug: {
             type: String,
@@ -19,53 +20,50 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: true,
             maxlength: 2000,
-            text: true
+            text: true,
         },
         price: {
             type: Number,
-            trim: true,
             required: true,
-            maxlength: 12,
+            trim: true,
+            maxlength: 32,
         },
-        category:
-        {
+        category: {
             type: ObjectId,
-            ref: 'Category',
-            required: true
+            ref: "Category",
         },
-        subs: [{
-            type: ObjectId,
-            ref: 'Sub',
-        }],
+        subs: [
+            {
+                type: ObjectId,
+                ref: "Sub",
+            },
+        ],
         quantity: Number,
         sold: {
             type: Number,
-            default: 0
+            default: 0,
         },
         images: {
-            type: Array
+            type: Array,
         },
         shipping: {
             type: String,
-            enum: ['Yes', 'No'],
-
+            enum: ["Yes", "No"],
         },
         color: {
             type: String,
-            enum: ['Silver', 'Brown', 'Blue', 'Black', 'White'],
-
+            enum: ["Black", "Brown", "Silver", "White", "Blue"],
         },
         brand: {
             type: String,
-            enum: ['Apple', 'Samsung', 'Lenovo', 'Microsoft', 'ASUS'],
-
+            enum: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
         },
         // ratings: [
-        //     {
-        //         star: Number,
-        //         postedBy: { type: ObjectId, ref: 'User' }
-        //     }
-        // ]
+        //   {
+        //     star: Number,
+        //     postedBy: { type: ObjectId, ref: "User" },
+        //   },
+        // ],
     },
     { timestamps: true }
 );
