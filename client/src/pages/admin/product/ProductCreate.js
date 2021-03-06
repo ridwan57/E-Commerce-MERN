@@ -12,7 +12,7 @@ import AdminNav from "../../../components/nav/AdminNav";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
-import { Loading3QuartersOutlined, LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const initialState = {
     title: "Nokia x7",
