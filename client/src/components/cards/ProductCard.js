@@ -18,7 +18,7 @@ const ProductCard = ({ product, handleRemove }) => {
                     style={{ height: "150px", objectFit: "cover" }}
                     className="p-1"
                 />
-            } W
+            }
             actions={[
                 <Link to={`/product/${slug}`}>
                     <EyeOutlined className='text-warning' /><br /> View Product

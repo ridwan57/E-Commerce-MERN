@@ -1,6 +1,9 @@
+import { Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Jumbotron from "../components/cards/Jumbotron";
+import LoadingCard from "../components/cards/LoadingCard";
 
 import ProductCard from "../components/cards/ProductCard";
 import AdminNav from "../components/nav/AdminNav";
@@ -54,32 +57,34 @@ const Home = () => {
 
     return (
         <>
-            <div className='jumbotron'>
-                {loading ? (
-                    <h4 className="text-danger">Loading...</h4>
-                ) : (
-                    <h4>All Products</h4>
-                )}
+            <div className='jumbotron text-danger h1 font-weight-bold text-center'>
+                <Jumbotron text={["New Collection", "Latest Products"]} />
+
+
             </div>
             <div className="container">
-                <div className="row">
-                    <div className="col-md-2">
-                        <AdminNav />
-                    </div>
-                    {JSON.stringify(products)}
 
-                    <div className="col">
 
-                        <div className="row">
-                            {products.map((product) => (
-                                <div key={product._id} className="col-md-4 mb-4">
-                                    <ProductCard product={product} handleRemove={handleRemove} />
-                                </div>
-                            ))}
-                        </div>
+
+                {loading ? (
+                    <LoadingCard count={3} />
+                ) :
+
+                    <div className="row">
+                        {products.map((product) => (
+                            <div key={product._id} className="col-md-4 mb-4">
+                                <ProductCard key={product._id}
+                                    product={product} handleRemove={handleRemove}
+                                />
+                            </div>
+                        ))}
+
                     </div>
-                </div>
+                }
+
+
             </div>
+
 
         </>
 
