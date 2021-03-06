@@ -64,10 +64,11 @@ const ProductUpdateForm = (props) => {
                 <label>Shipping</label>
                 <select
                     name="shipping"
+                    value={shipping === 'Yes' ? 'Yes' : 'No'}
                     className="form-control"
                     onChange={handleChange}
                 >
-                    <option>Please select</option>
+
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                 </select>
@@ -88,11 +89,12 @@ const ProductUpdateForm = (props) => {
                 <label>Color</label>
                 <select
                     name="color"
+                    value={color}
                     className="form-control"
                     onChange={handleChange}
-                    
+
                 >
-                    <option>Please select</option>
+
                     {colors.map((c) => (
                         <option key={c} value={c}>
                             {c}
@@ -105,10 +107,11 @@ const ProductUpdateForm = (props) => {
                 <label>Brand</label>
                 <select
                     name="brand"
+                    value={brand}
                     className="form-control"
                     onChange={handleChange}
                 >
-                    <option>Please select</option>
+
                     {brands.map((b) => (
                         <option key={b} value={b}>
                             {b}
