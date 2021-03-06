@@ -6,7 +6,7 @@ import { Avatar, Badge } from 'antd';
 import { toast } from 'react-toastify';
 
 const resizeFile = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(file, 360, 360, 'JPEG', 100, 0,
+    Resizer.imageFileResizer(file, 720, 720, 'JPEG', 100, 0,
         uri => {
             resolve(uri);
         },
@@ -14,7 +14,7 @@ const resizeFile = (file) => new Promise(resolve => {
     );
 });
 
-const FileUpload = ({ values, setValues, setLoading, setKey }) => {
+const FileUpload = ({ values, setValues, setLoading }) => {
     const { user } = useSelector(state => ({ ...state }))
 
     const fileUploadAndResize = (e) => {
@@ -35,7 +35,7 @@ const FileUpload = ({ values, setValues, setLoading, setKey }) => {
                             }
                         }).then(res => {
                             console.log('IMAGE UPLOAD RES DATA', res)
-                            setKey(Math.random())
+
                             toast.success('Uploaded')
                             setLoading(false)
                             allUploadedFiles.push(res.data)
@@ -68,7 +68,7 @@ const FileUpload = ({ values, setValues, setLoading, setKey }) => {
             }
         }).then(res => {
             console.log('IMAGE UPLOAD RES DATA', res)
-            setKey(Math.random())
+
             let filteredImages = values.images.filter(image => image.public_id !== public_id)
             setValues({ ...values, images: filteredImages })
             setLoading(false)

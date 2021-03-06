@@ -18,7 +18,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
                     style={{ height: "150px", objectFit: "cover" }}
                     className="p-1"
                 />
-            }W
+            }
             actions={[
                 <Link to={`/admin/product/${slug}`}>
                     <EditOutlined className='text-warning' />
