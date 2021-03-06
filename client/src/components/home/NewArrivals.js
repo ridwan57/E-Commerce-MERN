@@ -1,8 +1,8 @@
-import { Skeleton } from "antd";
+import { Pagination, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getProducts } from "../../functions/product";
+import { getProducts, getProductsCount } from "../../functions/product";
 import Jumbotron from "../cards/Jumbotron";
 import LoadingCard from "../cards/LoadingCard";
 import ProductCard from "../cards/ProductCard";
@@ -12,15 +12,27 @@ const NewArrivals = () => {
     const { user } = useSelector((state) => ({ ...state }));
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1)
+    const [productsCount, setProductsCount] = useState(0)
+    const onChange = (page) => {
+        console.log('pagination', page)
+        setPage(page)
+    }
+
 
     useEffect(() => {
-        loadAllProducts();
+
+        loadAllProducts()
+    }, [page]);
+
+    useEffect(() => {
+        getProductsCount().then(res => setProductsCount(res.data))
     }, []);
 
 
     const loadAllProducts = () => {
         setLoading(true);
-        getProducts('createdAt', 'asc', 12)
+        getProducts('createdAt', 'asc', page)
             .then((res) => {
                 setProducts(res.data);
                 setLoading(false);
@@ -33,6 +45,8 @@ const NewArrivals = () => {
 
     return (
         <>
+            {productsCount}
+            {page}
             <div className="container">
 
                 {loading ? (
@@ -49,6 +63,20 @@ const NewArrivals = () => {
 
                     </div>
                 }
+                <div className='row'>
+                    <nav className='col-md-4 offset-md-4 text-center pt-2 p-3'>
+                        <Pagination
+                            onChange={onChange}
+                            // onShowSizeChange={onShowSizeChange}
+                            current={page}
+                            total={Math.ceil(productsCount / 3) * 10}
+                        />
+
+                    </nav>
+
+
+
+                </div>
 
 
             </div>
