@@ -6,7 +6,8 @@ const ProductUpdateForm = (props) => {
 
     const { setValues, handleSubmit,
         handleChange, values,
-        // handleCategoryChange, subOptions 
+        handleCategoryChange,
+        subOptions
     } = props
     const {
         title,
@@ -119,9 +120,9 @@ const ProductUpdateForm = (props) => {
                     ))}
                 </select>
             </div>
-            {/* <div className='form-group'>
+            <div className='form-group'>
                 <label>Category</label>
-                <select name='category' className='form-control'
+                <select name='category' value={category} className='form-control'
                     onChange={handleCategoryChange}
                 >
                     <option>Please Select</option>
@@ -134,9 +135,9 @@ const ProductUpdateForm = (props) => {
 
                 </select>
 
-            </div> */}
+            </div>
 
-            {/* {subOptions.length > 0 &&
+            {subOptions.length > 0 &&
                 <div>
                     <label>Sub Category</label>
                     <Select
@@ -155,7 +156,7 @@ const ProductUpdateForm = (props) => {
 
                     </Select>
                 </div>
-            } */}
+            }
 
 
 

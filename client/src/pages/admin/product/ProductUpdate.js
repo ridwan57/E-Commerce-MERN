@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import AdminNav from "../../../components/nav/AdminNav";
 import { getProduct } from "../../../functions/product";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
+import { getCategories, getCategorySubs } from "../../../functions/category";
 
 
 
@@ -29,19 +30,54 @@ const ProductUpdate = ({ history, match: { params } }) => {
 
     const [values, setValues] = useState(initialState);
     const { user } = useSelector((state) => ({ ...state }));
+    const [categories, setCategories] = useState([]);
+    const [subOptions, setSubOptions] = useState([]);
 
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
 
     useEffect(() => {
+        loadProduct()
+        loadCategories()
+
+    }, []);
+
+
+    const loadCategories = () =>
+        getCategories().then((c) => {
+            console.log(c.data)
+            setValues((prevValues) => ({ ...prevValues, categories: c.data }))
+        });
+
+    const loadProduct = () => {
         getProduct(params.slug).then(res => {
             setName(res.data.name)
             console.log(res)
-            setValues({ ...values, ...res.data })
+            setValues((prevValues) => ({ ...prevValues, ...res.data }))
 
         })
             .catch(err => console.log(err))
-    }, [params]);
+
+    }
+    const handleCategoryChange = (e) => {
+        e.preventDefault()
+        console.log('handleCategoryChange', e.target.value)
+        setValues((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+            subs: []
+        }))
+        getCategorySubs(e.target.value).then(res => {
+
+            console.log(res.data)
+            setSubOptions(res.data)
+        })
+            .catch(err => {
+                console.log(err)
+            })
+        // console.log(e.target.name, '------------', e.target.value)
+        //
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -85,8 +121,8 @@ const ProductUpdate = ({ history, match: { params } }) => {
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
                         values={values}
-                        // handleCategoryChange={handleCategoryChange}
-                        // subOptions={subOptions}
+                        handleCategoryChange={handleCategoryChange}
+                        subOptions={subOptions}
                         setValues={setValues}
                     />
 
