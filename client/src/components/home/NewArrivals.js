@@ -45,8 +45,8 @@ const NewArrivals = () => {
 
     return (
         <>
-            {productsCount}
-            {page}
+
+
             <div className="container">
 
                 {loading ? (
