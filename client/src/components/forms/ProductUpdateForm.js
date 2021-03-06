@@ -1,19 +1,25 @@
-import React from 'react'
-import { Typography, Select } from "antd";
+import React from "react";
+import { Select } from "antd";
 
 const { Option } = Select;
-const ProductUpdateForm = (props) => {
 
-    const { setValues, handleSubmit,
-        handleChange, values,
-        handleCategoryChange,
-        subOptions
-    } = props
+const ProductUpdateForm = ({
+    handleSubmit,
+    handleChange,
+    setValues,
+    values,
+    handleCategoryChange,
+    categories,
+    subOptions,
+    arrayOfSubs,
+    setArrayOfSubs,
+    selectedCategory,
+}) => {
+    // destructure
     const {
         title,
         description,
         price,
-        categories,
         category,
         subs,
         shipping,
@@ -24,9 +30,8 @@ const ProductUpdateForm = (props) => {
         color,
         brand,
     } = values;
+
     return (
-
-
         <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <label>Title</label>
@@ -64,12 +69,11 @@ const ProductUpdateForm = (props) => {
             <div className="form-group">
                 <label>Shipping</label>
                 <select
+                    value={shipping === "Yes" ? "Yes" : "No"}
                     name="shipping"
-                    value={shipping === 'Yes' ? 'Yes' : 'No'}
                     className="form-control"
                     onChange={handleChange}
                 >
-
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
                 </select>
@@ -89,13 +93,11 @@ const ProductUpdateForm = (props) => {
             <div className="form-group">
                 <label>Color</label>
                 <select
-                    name="color"
                     value={color}
+                    name="color"
                     className="form-control"
                     onChange={handleChange}
-
                 >
-
                     {colors.map((c) => (
                         <option key={c} value={c}>
                             {c}
@@ -107,12 +109,11 @@ const ProductUpdateForm = (props) => {
             <div className="form-group">
                 <label>Brand</label>
                 <select
-                    name="brand"
                     value={brand}
+                    name="brand"
                     className="form-control"
                     onChange={handleChange}
                 >
-
                     {brands.map((b) => (
                         <option key={b} value={b}>
                             {b}
@@ -120,51 +121,46 @@ const ProductUpdateForm = (props) => {
                     ))}
                 </select>
             </div>
-            <div className='form-group'>
+
+            <div className="form-group">
                 <label>Category</label>
-                <select name='category' value={category} className='form-control'
+                <select
+                    name="category"
+                    className="form-control"
                     onChange={handleCategoryChange}
+                    value={selectedCategory ? selectedCategory : category._id}
                 >
-                    <option>Please Select</option>
-                    {categories.length > 0 && categories.map((c, id) => (
-                        <option key={c._id} value={c._id}>{c.name}</option>
-
-                    ))}
-
-
-
+                    {categories.length > 0 &&
+                        categories.map((c) => (
+                            <option key={c._id} value={c._id}>
+                                {c.name}
+                            </option>
+                        ))}
                 </select>
-
             </div>
 
-            {subOptions.length > 0 &&
-                <div>
-                    <label>Sub Category</label>
-                    <Select
-                        mode="multiple"
-                        style={{ width: "100%" }}
-                        placeholder="Please select"
-                        defaultValue={["a10", "c12"]}
-                        onChange={val => setValues({ ...values, subs: val })}
-                        name='subs'
-                        value={subs}
-                    >
-                        {subOptions.map((c, id) => (
-                            <Option key={c._id} value={c._id}>{c.name}</Option>
-
+            <div>
+                <label>Sub Categories</label>
+                <Select
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    placeholder="Please select"
+                    value={arrayOfSubs}
+                    onChange={(value) => setArrayOfSubs(value)}
+                >
+                    {subOptions.length &&
+                        subOptions.map((s) => (
+                            <Option key={s._id} value={s._id}>
+                                {s.name}
+                            </Option>
                         ))}
+                </Select>
+            </div>
 
-                    </Select>
-                </div>
-            }
-
-
-
-
-
+            <br />
             <button className="btn btn-outline-info">Save</button>
         </form>
-    )
-}
+    );
+};
 
-export default ProductUpdateForm
+export default ProductUpdateForm;
