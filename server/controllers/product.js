@@ -36,3 +36,8 @@ exports.remove = async (req, res) => {
             return res.json(deleted)
         })
 }
+
+exports.read = async (req, res) => {
+    let product = await Product.findOne({ slug: req.params.slug }).exec();
+    res.json(product);
+};
