@@ -11,7 +11,7 @@ const Product = ({ match: { params } }) => {
 
     const onStarClick = (rating) => {
         console.log('rating:', rating)
-        setRating(rating)
+        setRating(() => rating)
 
 
     }
@@ -20,6 +20,7 @@ const Product = ({ match: { params } }) => {
             .then(res => {
                 console.log(res.data)
                 toast.success(`Rating updated: ${res.data}`)
+                // loadSingleProduct()
             }).catch(er => {
                 console.log(er)
             })
@@ -29,10 +30,28 @@ const Product = ({ match: { params } }) => {
         console.log('back')
         loadSingleProduct()
 
-    }, [])
+    }, [params.slug, user])
+
+    useEffect(() => {
+
+
+    }, []);
 
     const loadSingleProduct = () => {
-        getProduct(params.slug).then(res => setProduct(res.data))
+        getProduct(params.slug).then(res => {
+
+            setProduct(res.data)
+            console.log('user_id', user ? user._id : '')
+            console.log('ratings', product.ratings)
+
+            if (product.ratings && user) {
+                let existingRatingObject = product.ratings.find(
+                    (ele) => ele.postedBy.toString() === user._id.toString()
+                );
+                existingRatingObject && setRating(() => existingRatingObject.star); // current user's star
+            }
+            console.log('Rating mounted: ', rating)
+        })
     }
     return (
         <div className='container-fluid'>

@@ -11,6 +11,7 @@ const ProductCard = ({ product, handleRemove }) => {
     const { title, description, images, slug } = product;
 
     return (
+
         <Card
             cover={
                 <img

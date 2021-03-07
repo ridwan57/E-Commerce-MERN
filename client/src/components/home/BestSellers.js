@@ -2,6 +2,7 @@ import { Pagination, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getProducts, getProductsCount } from "../../functions/product";
+import { showAverage } from "../../functions/ratings";
 import LoadingCard from "../cards/LoadingCard";
 import ProductCard from "../cards/ProductCard";
 
@@ -52,6 +53,7 @@ const BestSellers = () => {
                     <div className="row">
                         {products.map((product) => (
                             <div key={product._id} className="col-md-4 mb-4">
+                                {product && product.ratings && product.ratings.length > 0 ? showAverage(product) : <div className='text-center pt-2 pb-3 '> No rating yet</div>}
                                 <ProductCard key={product._id}
                                     product={product}
                                 />
