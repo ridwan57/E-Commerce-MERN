@@ -6,11 +6,13 @@ import {
     UserOutlined,
     UserAddOutlined,
     LogoutOutlined,
+    ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Search from "../forms/Search";
 
 const { SubMenu, Item } = Menu;
 
@@ -42,6 +44,12 @@ const Header = () => {
                 <Link to="/">Home</Link>
             </Item>
 
+            <Item key="home" icon={<ShoppingCartOutlined />}>
+                <Link to="/shop">Shop</Link>
+            </Item>
+
+
+
             {!user && (
                 <Item key="register" icon={<UserAddOutlined />} className="float-right">
                     <Link to="/register">Register</Link>
@@ -53,6 +61,7 @@ const Header = () => {
                     <Link to="/login">Login</Link>
                 </Item>
             )}
+
 
             {user && (
                 <SubMenu
@@ -69,6 +78,10 @@ const Header = () => {
           </Item>
                 </SubMenu>
             )}
+            <div className='float-right p-1'>
+
+                <Search />
+            </div>
         </Menu>
     );
 };
