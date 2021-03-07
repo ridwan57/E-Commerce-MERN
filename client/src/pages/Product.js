@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { getProduct, productStar } from '../functions/product'
+import { getProduct, getRelated, productStar } from '../functions/product'
 import SingleProduct from '../components/cards/SingleProduct'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import LoadingCard from '../components/cards/LoadingCard'
+import ProductCard from '../components/cards/ProductCard'
+import { Pagination } from 'antd'
+import { showAverage } from '../functions/ratings'
 
 const Product = ({ match: { params } }) => {
     const [product, setProduct] = useState({})
+    const [relatedProduct, setRelatedProduct] = useState({})
     const [rating, setRating] = useState()
+    const [loading, setLoading] = useState(false)
     const { user } = useSelector(state => ({ ...state }))
 
     const onStarClick = (rating) => {
@@ -30,12 +36,9 @@ const Product = ({ match: { params } }) => {
         console.log('back')
         loadSingleProduct()
 
-    }, [params.slug, user])
-
-    useEffect(() => {
+    }, [user, params.slug])
 
 
-    }, []);
 
     const loadSingleProduct = () => {
         getProduct(params.slug).then(res => {
@@ -51,7 +54,17 @@ const Product = ({ match: { params } }) => {
                 existingRatingObject && setRating(() => existingRatingObject.star); // current user's star
             }
             console.log('Rating mounted: ', rating)
+
+            getRelated(product._id).then(res => {
+                console.log('related', res.data)
+                setRelatedProduct(res.data)
+                // loadSingleProduct()
+            }).catch(err => {
+                console.log(err)
+            })
         })
+
+
     }
     return (
         <div className='container-fluid'>
@@ -65,6 +78,28 @@ const Product = ({ match: { params } }) => {
                 <div className='col text-center pt-5 pb-5'>
                     <hr />
                     <h4>Related Product </h4>
+
+
+                    <div className="container">
+
+                        {/* {JSON.stringify(relatedProduct)} */}
+                        <div className="row">
+                            {relatedProduct && relatedProduct.length > 0 ? relatedProduct.map((product) => (
+                                <div key={product._id} className="col-md-4 mb-4">
+                                    {product && product.ratings && product.ratings.length > 0 ? showAverage(product) : <div className='text-center pt-2 pb-3 '> No rating yet</div>}
+                                    <ProductCard key={product._id}
+                                        product={product}
+                                    />
+                                </div>
+                            )) :
+                                'No Related Product'
+                            }
+
+                        </div>
+
+
+
+                    </div>
                     <hr />
                 </div>
 

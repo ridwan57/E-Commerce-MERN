@@ -14,7 +14,7 @@ const { Meta } = Card;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
-    const { title, images } = product;
+    const { title, images, description } = product;
 
 
     return (
@@ -32,8 +32,8 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
 
                 <Tabs type='card' defaultActiveKey="1">
                     <TabPane tab="Description" key="1">
-                        Tab 1
-                      </TabPane>
+                        {description ? description : 'No description for this product'}
+                    </TabPane>
                     <TabPane tab="More" key="2">
                         Tab 2
                         </TabPane>
