@@ -150,7 +150,7 @@ exports.productStar = async (req, res) => {
 };
 
 exports.listRelated = async (req, res) => {
-  console.log('req.params.productId', req.params.productId)
+
   const product = await Product.findById(req.params.productId).exec();
 
   const related = await Product.find({
@@ -170,10 +170,13 @@ exports.listRelated = async (req, res) => {
 exports.searchFilters = async (req, res) => {
   const { query, rating, category } = req.body
 
-  if (query) {
+  if (query, price) {
     console.log('query:', query)
     await handleQuery(req, res, query)
-
+  }
+  if (price !== undefined) {
+    console.log('price:', price)
+    await handlePrice(req, res, price)
 
   }
 
@@ -188,5 +191,30 @@ const handleQuery = async (req, res, query) => {
     .exec();
 
   res.json(products)
+
+}
+
+const handlePrice = async (req, res, price) => {
+
+  try {
+    const products = await Product.find({
+      price: {
+        $gte: price[0],
+        $lte: price[1],
+      }
+
+    })
+      .populate('category', '_id name')
+      .populate('subs', '_id name')
+      .populate('postedBy', '_id name')
+      .exec();
+
+    res.json(products)
+
+  } catch (error) {
+    console.log('error:', error)
+
+  }
+
 
 }

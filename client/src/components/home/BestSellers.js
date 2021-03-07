@@ -1,6 +1,6 @@
-import { Pagination, Skeleton } from "antd";
+import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
 import { getProducts, getProductsCount } from "../../functions/product";
 import { showAverage } from "../../functions/ratings";
 import LoadingCard from "../cards/LoadingCard";
@@ -10,19 +10,20 @@ import ProductCard from "../cards/ProductCard";
 
 
 const BestSellers = () => {
-    const { user } = useSelector((state) => ({ ...state }));
+   
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1)
     const [productsCount, setProductsCount] = useState(0)
     const onChange = (page) => {
-        console.log('pagination', page)
+        // console.log('pagination', page)
         setPage(page)
     }
 
 
     useEffect(() => {
         loadAllProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     useEffect(() => {

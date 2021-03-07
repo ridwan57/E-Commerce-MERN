@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { getProduct, updateProduct } from '../../../functions/product'
-import { getCategorySubs, getCategory, getCategories } from '../../../functions/category'
+import { getCategorySubs, getCategories } from '../../../functions/category'
 import { LoadingOutlined } from '@ant-design/icons'
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm";
 import FileUpload from "../../../components/forms/FileUpload";
@@ -38,6 +38,7 @@ const ProductUpdate = ({ match, history }) => {
   useEffect(() => {
     loadProduct();
     loadCategories();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadProduct = () => {
@@ -51,6 +52,7 @@ const ProductUpdate = ({ match, history }) => {
       });
       // 3 prepare array of sub ids to show as default sub values in antd Select
       let arr = [];
+      // eslint-disable-next-line array-callback-return
       p.data.subs.map((s) => {
         arr.push(s._id);
       });

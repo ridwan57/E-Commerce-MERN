@@ -49,6 +49,7 @@ const ProductCreate = () => {
     useEffect(() => {
         console.log('use effect product create')
         loadCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadCategories = () =>

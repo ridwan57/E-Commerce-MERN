@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import AdminProductCard from "../../components/cards/AdminProductCard";
+import React from "react";
 import AdminNav from "../../components/nav/AdminNav";
-import { getProductsByCount } from "../../functions/product";
 
 const AdminDashboard = () => {
 

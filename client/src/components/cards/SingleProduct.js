@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
@@ -10,7 +10,7 @@ import ReactStars from 'react-stars'
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/ratings";
 
-const { Meta } = Card;
+
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
@@ -24,10 +24,10 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                 {images && images.length ? (
                     <Carousel
                         showArrows={true} autoPlay infiniteLoop >
-                        {images && images.map((i) => <img alt={i.public_id} src={i.url} key={i.public_id} />)}
+                        {images && images.map((i) => <img key={i.public_id} alt={i.public_id} src={i.url} />)}
                     </Carousel>
                 ) : (
-                    <Card cover={<img src={Laptop} className="mb-3 card-image" />}></Card>
+                    <Card cover={<img alt={Laptop} src={Laptop} className="mb-3 card-image" />}></Card>
                 )}
 
                 <Tabs type='card' defaultActiveKey="1">
@@ -41,7 +41,7 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                 </Tabs>
             </div>
 
-            <div className="col-md-5 text-cente">
+            <div className="col-md-5 text-center">
                 <h1 className='bg-info p-3'> {title}</h1>
                rating
 
@@ -57,7 +57,7 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                             <HeartOutlined className="text-info" /> <br /> Add to Wishlist
                            </Link>,
 
-                        <Link> <RatingModal onOkClick={onOkClick}><ReactStars
+                        <RatingModal onOkClick={onOkClick}><ReactStars
                             count={5}
                             onChange={onStarClick}
                             size={54}
@@ -66,7 +66,7 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
 
                             half={false}
 
-                        /></RatingModal></Link>,
+                        /></RatingModal>,
                     ]
 
                     }

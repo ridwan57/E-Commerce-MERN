@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Select } from "antd";
+import { Select } from "antd";
 
 const { Option } = Select;
 const ProductCreateForm = (props) => {
@@ -10,15 +10,15 @@ const ProductCreateForm = (props) => {
         description,
         price,
         categories,
-        category,
+
         subs,
-        shipping,
+
         quantity,
-        images,
+
         colors,
         brands,
-        color,
-        brand,
+
+
     } = values;
     return (
 
@@ -89,8 +89,8 @@ const ProductCreateForm = (props) => {
                     onChange={handleChange}
                 >
                     <option>Please select</option>
-                    {colors.map((c) => (
-                        <option key={c} value={c}>
+                    {colors.map((c, i) => (
+                        <option key={i} value={c}>
                             {c}
                         </option>
                     ))}
@@ -105,8 +105,8 @@ const ProductCreateForm = (props) => {
                     onChange={handleChange}
                 >
                     <option>Please select</option>
-                    {brands.map((b) => (
-                        <option key={b} value={b}>
+                    {brands.map((b, i) => (
+                        <option key={i} value={b}>
                             {b}
                         </option>
                     ))}

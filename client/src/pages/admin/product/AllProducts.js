@@ -17,7 +17,7 @@ const AllProducts = () => {
 
     const handleRemove = (slug) => {
         let answer = window.confirm(`Are you sure you want to delete ?`)
-        console.log(answer)
+
         if (answer) {
             setLoading(true)
             removeProduct(slug, user.token)

@@ -3,20 +3,17 @@ import { getProduct, getRelated, productStar } from '../functions/product'
 import SingleProduct from '../components/cards/SingleProduct'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import LoadingCard from '../components/cards/LoadingCard'
 import ProductCard from '../components/cards/ProductCard'
-import { Pagination } from 'antd'
 import { showAverage } from '../functions/ratings'
 
 const Product = ({ match: { params } }) => {
     const [product, setProduct] = useState({})
     const [relatedProduct, setRelatedProduct] = useState({})
     const [rating, setRating] = useState()
-    const [loading, setLoading] = useState(false)
     const { user } = useSelector(state => ({ ...state }))
 
     const onStarClick = (rating) => {
-        console.log('rating:', rating)
+        // console.log('rating:', rating)
         setRating(() => rating)
 
 
@@ -33,9 +30,10 @@ const Product = ({ match: { params } }) => {
 
     }
     useEffect(() => {
-        console.log('back')
+        // console.log('back')
         loadSingleProduct()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, params.slug])
 
 
@@ -44,8 +42,8 @@ const Product = ({ match: { params } }) => {
         getProduct(params.slug).then(res => {
 
             setProduct(res.data)
-            console.log('user_id', user ? user._id : '')
-            console.log('ratings', product.ratings)
+            // console.log('user_id', user ? user._id : '')
+            // console.log('ratings', product.ratings)
 
             if (product.ratings && user) {
                 let existingRatingObject = product.ratings.find(
@@ -53,10 +51,10 @@ const Product = ({ match: { params } }) => {
                 );
                 existingRatingObject && setRating(() => existingRatingObject.star); // current user's star
             }
-            console.log('Rating mounted: ', rating)
+        
 
             getRelated(product._id).then(res => {
-                console.log('related', res.data)
+                // console.log('related', res.data)
                 setRelatedProduct(res.data)
                 // loadSingleProduct()
             }).catch(err => {

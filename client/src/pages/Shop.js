@@ -1,7 +1,5 @@
-import { Pagination, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import LoadingCard from "../components/cards/LoadingCard";
 import ProductCard from "../components/cards/ProductCard";
 import { getProductsByCount, getSearchProducts } from "../functions/product";
@@ -85,7 +83,7 @@ const Shop = () => {
                                     <div key={product._id} className="col-md-4 mb-4">
                                         {product && product.ratings && product.ratings.length > 0 ? showAverage(product) :
                                             <div className='text-center pt-2 pb-3 '> No rating yet</div>}
-                                        <ProductCard key={product._id}
+                                        <ProductCard
                                             product={product}
                                         />
                                     </div>

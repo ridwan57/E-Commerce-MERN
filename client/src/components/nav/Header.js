@@ -44,7 +44,7 @@ const Header = () => {
                 <Link to="/">Home</Link>
             </Item>
 
-            <Item key="home" icon={<ShoppingCartOutlined />}>
+            <Item key="shop" icon={<ShoppingCartOutlined />}>
                 <Link to="/shop">Shop</Link>
             </Item>
 
@@ -65,24 +65,26 @@ const Header = () => {
 
             {user && (
                 <SubMenu
+
                     icon={<SettingOutlined />}
                     title={user.email && user.email.split("@")[0]}
                     className="float-right"
                 >
-                    {user && user.role === 'subscriber' && <Item ><Link to='/user/history'> DashBoard</Link></Item>}
-                    {user && user.role === 'admin' && <Item ><Link to='/admin/dashboard'> DashBoard</Link></Item>}
+                    {user && user.role === 'subscriber' && <Item key='user' ><Link to='/user/history'> DashBoard</Link></Item>}
+                    {user && user.role === 'admin' && <Item key='admin'><Link to='/admin/dashboard'> DashBoard</Link></Item>}
 
 
-                    <Item icon={<LogoutOutlined />} onClick={logout}>
+                    <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
                         Logout
-          </Item>
+                      </Item>
                 </SubMenu>
-            )}
-            <div className='float-right p-1'>
+            )
+            }
+            <div className='float-right p-1' key='search'>
 
                 <Search />
             </div>
-        </Menu>
+        </Menu >
     );
 };
 

@@ -1,16 +1,15 @@
-import { Pagination, Skeleton } from "antd";
+import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+
+
 import { getProducts, getProductsCount } from "../../functions/product";
 import { showAverage } from "../../functions/ratings";
-import Jumbotron from "../cards/Jumbotron";
 import LoadingCard from "../cards/LoadingCard";
 import ProductCard from "../cards/ProductCard";
 
 
 const NewArrivals = () => {
-    const { user } = useSelector((state) => ({ ...state }));
+
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1)
@@ -24,6 +23,7 @@ const NewArrivals = () => {
     useEffect(() => {
 
         loadAllProducts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const NewArrivals = () => {
                         {products.map((product) => (
                             <div key={product._id} className="col-md-4 mb-4">
                                 {product && product.ratings && product.ratings.length > 0 ? showAverage(product) : <div className='text-center pt-2 pb-3 '> No rating yet</div>}
-                                <ProductCard key={product._id}
+                                <ProductCard
                                     product={product}
                                 />
                             </div>

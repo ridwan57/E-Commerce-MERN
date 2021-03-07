@@ -21,10 +21,10 @@ const ProductUpdateForm = ({
         description,
         price,
         category,
-        subs,
+
         shipping,
         quantity,
-        images,
+
         colors,
         brands,
         color,
@@ -98,8 +98,8 @@ const ProductUpdateForm = ({
                     className="form-control"
                     onChange={handleChange}
                 >
-                    {colors.map((c) => (
-                        <option key={c} value={c}>
+                    {colors.map((c, i) => (
+                        <option key={i} value={c}>
                             {c}
                         </option>
                     ))}
@@ -114,8 +114,8 @@ const ProductUpdateForm = ({
                     className="form-control"
                     onChange={handleChange}
                 >
-                    {brands.map((b) => (
-                        <option key={b} value={b}>
+                    {brands.map((b, i) => (
+                        <option key={i} value={b}>
                             {b}
                         </option>
                     ))}

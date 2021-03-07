@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { Avatar, Badge } from 'antd';
 import { toast } from 'react-toastify';
-import LaptopImg from '../../images/laptop.png'
+
 
 const resizeFile = (file) => new Promise(resolve => {
     Resizer.imageFileResizer(file, 720, 720, 'JPEG', 100, 0,
@@ -27,7 +27,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
             for (let i = 0; i < files.length; i++) {
                 resizeFile(files[i])
                     .then(uri => {
-                        console.log(uri)
+                        // console.log(uri)
                         axios.post(`${process.env.REACT_APP_API}/uploadimages`, {
                             image: uri
                         }, {
@@ -86,7 +86,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
             <div className='row'>
 
                 {values.images && values.images.map((image, i) => (
-                    <Badge count='X' key={image.public_id}
+                    <Badge count='X' key={i}
                         style={{ cursor: 'pointer' }}
                         onClick={() => handleImageRemove(image.public_id)}
 
