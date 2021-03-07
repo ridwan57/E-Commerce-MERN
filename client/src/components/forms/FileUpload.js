@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { Avatar, Badge } from 'antd';
 import { toast } from 'react-toastify';
+import LaptopImg from '../../images/laptop.png'
 
 const resizeFile = (file) => new Promise(resolve => {
     Resizer.imageFileResizer(file, 720, 720, 'JPEG', 100, 0,

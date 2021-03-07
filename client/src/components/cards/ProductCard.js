@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import LaptopImg from '../../images/laptop.png'
 
 const { Meta } = Card;
 
@@ -14,7 +15,7 @@ const ProductCard = ({ product, handleRemove }) => {
             cover={
                 <img
                     alt={images && images.length ? images[0].public_id : ""}
-                    src={images && images.length ? images[0].url : "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"}
+                    src={images && images.length ? images[0].url : LaptopImg}
                     style={{ height: "150px", objectFit: "cover" }}
                     className="p-1"
                 />
