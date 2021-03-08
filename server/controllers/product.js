@@ -168,15 +168,21 @@ exports.listRelated = async (req, res) => {
 
 
 exports.searchFilters = async (req, res) => {
-  const { query, rating, category } = req.body
+  const { query, rating, category, price } = req.body
 
-  if (query, price) {
+  if (query) {
     console.log('query:', query)
     await handleQuery(req, res, query)
   }
   if (price !== undefined) {
     console.log('price:', price)
     await handlePrice(req, res, price)
+
+  }
+
+  if (category !== undefined) {
+    console.log('price:', category)
+    await handleCategory(req, res, category)
 
   }
 
@@ -202,6 +208,29 @@ const handlePrice = async (req, res, price) => {
         $gte: price[0],
         $lte: price[1],
       }
+
+    })
+      .populate('category', '_id name')
+      .populate('subs', '_id name')
+      .populate('postedBy', '_id name')
+      .exec();
+
+    res.json(products)
+
+  } catch (error) {
+    console.log('error:', error)
+
+  }
+
+
+}
+
+
+const handleCategory = async (req, res, category) => {
+
+  try {
+    const products = await Product.find({
+      category
 
     })
       .populate('category', '_id name')
