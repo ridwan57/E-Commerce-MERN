@@ -1,10 +1,11 @@
-import { DollarOutlined, DownSquareOutlined } from "@ant-design/icons";
+import { DollarOutlined, DownSquareOutlined, StarOutlined } from "@ant-design/icons";
 import { Menu, Slider } from "antd";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingCard from "../components/cards/LoadingCard";
 import ProductCard from "../components/cards/ProductCard";
+import Star from "../components/forms/Star";
 import { getCategories } from "../functions/category";
 import { getProductsByCount, getSearchProducts } from "../functions/product";
 import { showAverage } from "../functions/ratings";
@@ -54,7 +55,6 @@ const Shop = () => {
 
     //by default
     useEffect(() => {
-
         loadAllProducts()
         loadCategories();
     }, []);
@@ -143,13 +143,48 @@ const Shop = () => {
         // console.log(inTheState);
         fetchProducts({ category: inTheState });
     };
+    // 5. show products by star rating
+    const handleStarClick = (e) => {
+        e.preventDefault()
+        let num = parseInt(e.target.value)
+        console.log('num', num);
+        dispatch({
+            type: "SEARCH_QUERY",
+            payload: { text: "" },
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar(num);
+        setSub("");
+        setBrand("");
+        setColor("");
+        setShipping("");
+        fetchProducts({ stars: num });
+    };
 
+    const showStars = () => (
+        <div className="pr-4 pl-4 pb-2">
+            {/* <form> */}
+            <div className="form-check">
+                {[5, 4, 3, 2, 1].map(i => (
+                    <React.Fragment key={i}>
+                        <input className="form-check-input" type="radio" value={i} checked={star === i ? true : false} id={i} onChange={handleStarClick} />
+
+                        <Star numberOfStars={i} />
+                    </React.Fragment >
+                ))
+                }
+            </div >
+        </div >
+
+    );
 
     const handleSlider = (value) => {
         dispatch({
             type: "SEARCH_QUERY",
             payload: { text: "" },
         });
+        setCategoryIds([])
         setPrice(value);
         setTimeout(() => {
             setOk(!ok);
@@ -216,8 +251,20 @@ const Shop = () => {
                                 </span>
                             }
                         >
-                            <div style={{ maringTop: "-10px" }}>{showCategories()}</div>
+                            <div style={{ margingTop: "-10px" }}>{showCategories()}</div>
                         </SubMenu>
+                        {/* stars */}
+                        <SubMenu
+                            key="3"
+                            title={
+                                <span className="h6">
+                                    <StarOutlined /> Rating
+                         </span>
+                            }
+                        >
+                            <div style={{ margingTop: "-10px" }}>{showStars()}</div>
+                        </SubMenu>
+
                     </Menu>
 
                 </div>
