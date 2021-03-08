@@ -40,6 +40,10 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
             type: 'ADD_TO_CART',
             payload: unique
         })
+        dispatch({
+            type: 'SET_VISIBLE',
+            payload: true
+        })
     }
 
 

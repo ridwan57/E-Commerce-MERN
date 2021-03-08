@@ -14,10 +14,6 @@ const Login = ({ history }) => {
 
     const { user } = useSelector((state) => ({ ...state }));
 
-
-
-    let dispatch = useDispatch();
-
     useEffect(() => {
         let intended = history.location.state;
         if (intended) {
@@ -27,7 +23,7 @@ const Login = ({ history }) => {
         }
     }, [user, history]);
 
-
+    let dispatch = useDispatch();
 
     const roleBasedRedirect = (res) => {
         // check if intended

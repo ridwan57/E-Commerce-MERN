@@ -1,131 +1,121 @@
-import React from 'react'
-import Resizer from 'react-image-file-resizer';
-import axios from 'axios'
-import { useSelector } from 'react-redux';
-import { Avatar, Badge } from 'antd';
-import { toast } from 'react-toastify';
-
-
-const resizeFile = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(file, 720, 720, 'JPEG', 100, 0,
-        uri => {
-            resolve(uri);
-        },
-        'base64'
-    );
-});
+import React from "react";
+import Resizer from "react-image-file-resizer";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { Avatar, Badge } from "antd";
 
 const FileUpload = ({ values, setValues, setLoading }) => {
-    const { user } = useSelector(state => ({ ...state }))
+  const { user } = useSelector((state) => ({ ...state }));
 
-    const fileUploadAndResize = (e) => {
-        let files = e.target.files
-        console.log('e.target.files:', e.target.files)
-        let allUploadedFiles = values ? values.images : []
-        if (files.length > 0) {
-            setLoading(true)
-            for (let i = 0; i < files.length; i++) {
-                resizeFile(files[i])
-                    .then(uri => {
-                        // console.log(uri)
-                        axios.post(`${process.env.REACT_APP_API}/uploadimages`, {
-                            image: uri
-                        }, {
-                            headers: {
-                                authtoken: user ? user.token : ''
-                            }
-                        }).then(res => {
-                            console.log('IMAGE UPLOAD RES DATA', res)
+  const fileUploadAndResize = (e) => {
+    // console.log(e.target.files);
+    // resize
+    let files = e.target.files; // 3
+    let allUploadedFiles = values.images;
 
-                            toast.success('Uploaded')
-                            setLoading(false)
-                            allUploadedFiles.push(res.data)
-                        })
-                            .catch(err => {
-                                console.log('IMAGE POST FAILED', err)
-                            })
+    if (files) {
+      setLoading(true);
+      for (let i = 0; i < files.length; i++) {
+        Resizer.imageFileResizer(
+          files[i],
+          720,
+          720,
+          "JPEG",
+          100,
+          0,
+          (uri) => {
+            // console.log(uri);
+            axios
+              .post(
+                `${process.env.REACT_APP_API}/uploadimages`,
+                { image: uri },
+                {
+                  headers: {
+                    authtoken: user ? user.token : "",
+                  },
+                }
+              )
+              .then((res) => {
+                console.log("IMAGE UPLOAD RES DATA", res);
+                setLoading(false);
+                allUploadedFiles.push(res.data);
 
+                setValues({ ...values, images: allUploadedFiles });
+              })
+              .catch((err) => {
+                setLoading(false);
+                console.log("CLOUDINARY UPLOAD ERR", err);
+              });
+          },
+          "base64"
+        );
+      }
+    }
+    // send back to server to upload to cloudinary
+    // set url to images[] in the parent component state - ProductCreate
+  };
 
-                    })
-                    .catch(err => {
-                        console.log('IMAGE RESIZE FAILED', err)
-                    })
-            }
-            setValues({ ...values, images: allUploadedFiles })
+  const handleImageRemove = (public_id) => {
+    setLoading(true);
+    // console.log("remove image", public_id);
+    axios
+      .post(
+        `${process.env.REACT_APP_API}/removeimage`,
+        { public_id },
+        {
+          headers: {
+            authtoken: user ? user.token : "",
+          },
         }
+      )
+      .then((res) => {
+        setLoading(false);
+        const { images } = values;
+        let filteredImages = images.filter((item) => {
+          return item.public_id !== public_id;
+        });
+        setValues({ ...values, images: filteredImages });
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
+  return (
+    <>
+      <div className="row">
+        {values.images &&
+          values.images.map((image) => (
+            <Badge
+              count="X"
+              key={image.public_id}
+              onClick={() => handleImageRemove(image.public_id)}
+              style={{ cursor: "pointer" }}
+            >
+              <Avatar
+                src={image.url}
+                size={100}
+                shape="square"
+                className="ml-3"
+              />
+            </Badge>
+          ))}
+      </div>
+      <div className="row">
+        <label className="btn btn-primary btn-raised mt-3">
+          Choose File
+          <input
+            type="file"
+            multiple
+            hidden
+            accept="images/*"
+            onChange={fileUploadAndResize}
+          />
+        </label>
+      </div>
+    </>
+  );
+};
 
-
-    }
-
-    const handleImageRemove = (public_id) => {
-        console.log('id:', public_id)
-        setLoading(true)
-        axios.post(`${process.env.REACT_APP_API}/removeimage`, {
-            public_id
-        }, {
-            headers: {
-                authtoken: user.token
-            }
-        }).then(res => {
-            console.log('IMAGE UPLOAD RES DATA', res)
-
-            let filteredImages = values.images.filter(image => image.public_id !== public_id)
-            setValues({ ...values, images: filteredImages })
-            setLoading(false)
-            // allUploadedFiles.push(res.data)
-        }).catch(err => {
-            setLoading(false)
-            console.log(err)
-        })
-    }
-    return (
-        <>
-
-
-            <div className='row'>
-
-                {values.images && values.images.map((image, i) => (
-                    <Badge count='X' key={i}
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => handleImageRemove(image.public_id)}
-
-                    >
-
-                        <Avatar
-                            src={image.url} size={100}
-                            shape='square'
-                            className='m-3'
-                        >
-                            Product Image
-                    </Avatar>
-                    </Badge>
-
-
-                ))}
-
-            </div>
-            <div className='row'>
-                <label className='btn btn-primary btn-raised mb-4'>
-                    Choose File
-                     <input
-                        type='file'
-                        hidden
-                        multiple
-                        accept='images/*'
-                        onChange={fileUploadAndResize}
-
-                    />
-                </label>
-
-            </div>
-
-
-
-
-        </>
-
-    )
-}
-
-export default FileUpload
+export default FileUpload;
