@@ -9,6 +9,7 @@ import Star from "../components/forms/Star";
 import { getCategories } from "../functions/category";
 import { getProductsByCount, getSearchProducts } from "../functions/product";
 import { showAverage } from "../functions/ratings";
+import { getSubs } from "../functions/sub";
 const { SubMenu, ItemGroup, Item } = Menu
 
 
@@ -72,7 +73,8 @@ const Shop = () => {
         console.log('ok')
         fetchProducts({ price })
 
-
+        // fetch subcategories
+        getSubs().then((res) => setSubs(res.data));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ok])
     //category
@@ -184,8 +186,17 @@ const Shop = () => {
             type: "SEARCH_QUERY",
             payload: { text: "" },
         });
-        setCategoryIds([])
+
+
+
+        // reset
+        setCategoryIds([]);
         setPrice(value);
+        setStar("");
+        setSub("");
+        setBrand("");
+        setColor("");
+        setShipping("");
         setTimeout(() => {
             setOk(!ok);
         }, 300);
@@ -211,6 +222,37 @@ const Shop = () => {
             </div>
         ));
 
+
+
+    // 6. show products by sub category
+    const showSubs = () =>
+        subs.map((s) => (
+            <div
+                key={s._id}
+                onClick={() => handleSub(s)}
+                className={`p-1 m-1 badge badge-secondary ${s._id === sub._id ? 'text-danger' : ''}`}
+                style={{ cursor: "pointer" }}
+
+            >
+                {s.name}
+            </div>
+        ));
+
+    const handleSub = (sub) => {
+        // console.log("SUB", sub);
+        setSub(sub);
+        dispatch({
+            type: "SEARCH_QUERY",
+            payload: { text: "" },
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar("");
+        setBrand("");
+        setColor("");
+        setShipping("");
+        fetchProducts({ sub });
+    };
 
     return (
 
@@ -263,6 +305,20 @@ const Shop = () => {
                             }
                         >
                             <div style={{ margingTop: "-10px" }}>{showStars()}</div>
+                        </SubMenu>
+
+                        {/* sub category */}
+                        <SubMenu
+                            key="4"
+                            title={
+                                <span className="h6">
+                                    <DownSquareOutlined /> Sub Categories
+                                  </span>
+                            }
+                        >
+                            <div style={{ maringTop: "-10px" }} className="pl-4 pr-4">
+                                {showSubs()}
+                            </div>
                         </SubMenu>
 
                     </Menu>
