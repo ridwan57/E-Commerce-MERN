@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Tabs } from "antd";
+import React, { useState } from "react";
+import { Card, Tabs, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
@@ -9,12 +9,39 @@ import ProductListItems from "./ProductListItems";
 import ReactStars from 'react-stars'
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/ratings";
+import { useDispatch } from "react-redux";
 
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
     const { title, images, description } = product;
+
+    const [toolTip, setToolTip] = useState('Click to add')
+    const dispatch = useDispatch()
+
+    const handleAddToCart = () => {
+        let cart = []
+        if (window.localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'))
+
+        }
+        cart.push(({
+            ...product,
+            count: 1
+
+        }))
+        // eslint-disable-next-line no-undef
+        let unique = _.uniqWith(cart, _.isEqual)
+        console.log('unique:', unique)
+        window.localStorage.setItem('cart', JSON.stringify(unique))
+        setToolTip('Added')
+        dispatch({
+            type: 'ADD_TO_CART',
+            payload: unique
+        })
+    }
+
 
 
     return (
@@ -50,9 +77,13 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                 <Card
                     actions={[
                         <>
-                            <ShoppingCartOutlined className="text-success" /> <br />
-              Add to Cart
-            </>,
+                            <Tooltip title={toolTip}>
+                                <a onClick={handleAddToCart}>
+                                    <ShoppingCartOutlined className="text-danger" /> <br /> Add to Cart
+                                      </a>
+                            </Tooltip>
+                        </>
+                        ,
                         <Link to="/">
                             <HeartOutlined className="text-info" /> <br /> Add to Wishlist
                            </Link>,
@@ -81,4 +112,4 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
     );
 };
 
-export default SingleProduct;
+export default SingleProduct
