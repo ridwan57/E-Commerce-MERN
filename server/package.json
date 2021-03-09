@@ -23,6 +23,7 @@
     "nodemon": "^2.0.7",
     "slugify": "^1.4.7",
     "stripe": "^8.137.0",
-    "typewriter-effect": "^2.17.0"
+    "typewriter-effect": "^2.17.0",
+    "uniqueid": "^1.0.0"
   }
 }
