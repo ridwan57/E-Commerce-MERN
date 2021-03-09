@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Card, Tooltip } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Card, Empty, Tooltip } from "antd";
+import { EyeOutlined, ShoppingCartOutlined, StockOutlined } from "@ant-design/icons";
 import laptop from "../../images/laptop.png";
 import { Link } from "react-router-dom";
 import { showAverage } from "../../functions/ratings";
@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
 
     }
     // destructure
-    const { images, title, description, slug, price } = product;
+    const { images, title, description, slug, price, quantity } = product;
     return (
         <>
             {/* {product && product.ratings && product.ratings.length > 0 ? (
@@ -66,8 +66,19 @@ const ProductCard = ({ product }) => {
                         <EyeOutlined className="text-warning" /> <br /> View Product
           </Link>, <Tooltip title={toolTip}>
                         <a onClick={handleAddToCart}>
-                            <ShoppingCartOutlined className="text-danger" /> <br /> Add to Cart
-                </a>  </Tooltip>
+                            {quantity > 0 ?
+
+
+                                <><ShoppingCartOutlined className="text-danger" /> <br /> 'Add to Cart'
+                                </>
+                                :
+                                <>
+
+                                    <Empty className='text-success' /> <br /> 'Out of Stock'
+                            </>
+                            }
+
+                        </a>  </Tooltip>
                     ,
                 ]}
             >

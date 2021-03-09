@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { DollarOutlined, CheckOutlined, SwapOutlined } from "@ant-design/icons";
 import Laptop from "../images/laptop.png";
+import { createOrder, emptyUserCart } from "../functions/user";
+import { toast } from "react-toastify";
 
 const StripeCheckout = ({ history }) => {
     const dispatch = useDispatch();
@@ -52,6 +54,33 @@ const StripeCheckout = ({ history }) => {
             setError(`Payment failed ${payload.error.message}`);
             setProcessing(false);
         } else {
+            createOrder(payload, user.token)
+                .then(res => {
+                    if (res.data.ok) {
+                        //empty l.s/cart//database
+                        if (typeof window !== 'undefined') {
+                            localStorage.removeItem('cart')
+                        }
+                        dispatch({
+                            type: 'ADD_TO_CART',
+                            payload: []
+                        })
+                        dispatch({
+                            type: 'COUPON_APPLIED',
+                            payload: false
+                        })
+                        emptyUserCart(user.token)
+                        toast.success('Order Placed')
+
+                    } else {
+                        console.log('Order Failed')
+                        toast.error('Order Failed')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    toast.error('Order Failed')
+                })
             // here you get result after successful payment
             // create order and save in database for admin to process
             // empty user cart from redux store and local storage
