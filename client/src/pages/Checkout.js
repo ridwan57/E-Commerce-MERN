@@ -10,7 +10,7 @@ import {
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const Checkout = () => {
+const Checkout = ({ history }) => {
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
     const [address, setAddress] = useState("");
@@ -67,6 +67,10 @@ const Checkout = () => {
             console.log("RES ON COUPON APPLIED", res.data);
             if (res.data) {
                 setTotalAfterDiscount(res.data);
+                dispatch({
+                    type: 'COUPON_APPLIED',
+                    payload: true
+                })
                 // update redux coupon applied
             }
             // error
@@ -106,10 +110,13 @@ const Checkout = () => {
                 value={coupon}
                 type="text"
                 className="form-control"
+                disabled={!products.length}
             />
             <button
+                disabled={!products.length}
                 onClick={applyDiscountCoupon}
                 className="btn btn-primary mt-2">
+
                 Apply
       </button>
         </>
@@ -125,7 +132,7 @@ const Checkout = () => {
                 <hr />
                 <h4>Got Coupon?</h4>
                 <br />
-                {showApplyCoupon()}
+                {products.length && showApplyCoupon()}
                 <br />
                 {discountError && <p className="bg-danger p-2">{discountError}</p>}
             </div>
@@ -148,6 +155,7 @@ const Checkout = () => {
                 <div className="row">
                     <div className="col-md-6">
                         <button
+                            onClick={() => history.push('/payment')}
                             className="btn btn-primary"
                             disabled={!addressSaved || !products.length}
                         >
