@@ -11,7 +11,7 @@ exports.userCart = async (req, res) => {
     const user = await User.findOne({ email: req.user.email }).exec();
 
     // check if cart with logged in user id already exist
-    let cartExistByThisUser = await Cart.findOne({ orderdBy: user._id }).exec();
+    let cartExistByThisUser = await Cart.findOne({ orderedBy: user._id }).exec();
 
     if (cartExistByThisUser) {
         cartExistByThisUser.remove();
@@ -45,7 +45,7 @@ exports.userCart = async (req, res) => {
     let newCart = await new Cart({
         products,
         cartTotal,
-        orderdBy: user._id,
+        orderedBy: user._id,
     }).save();
 
     console.log("new cart ----> ", newCart);
@@ -55,7 +55,7 @@ exports.userCart = async (req, res) => {
 exports.getUserCart = async (req, res) => {
     const user = await User.findOne({ email: req.user.email }).exec();
 
-    let cart = await Cart.findOne({ orderdBy: user._id })
+    let cart = await Cart.findOne({ orderedBy: user._id })
         .populate("products.product", "_id title price totalAfterDiscount")
         .exec();
 
@@ -67,7 +67,7 @@ exports.emptyCart = async (req, res) => {
     console.log("empty cart");
     const user = await User.findOne({ email: req.user.email }).exec();
 
-    const cart = await Cart.findOneAndRemove({ orderdBy: user._id }).exec();
+    const cart = await Cart.findOneAndRemove({ orderedBy: user._id }).exec();
     res.json(cart);
 };
 
