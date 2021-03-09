@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Tabs, Tooltip } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -9,7 +9,9 @@ import ProductListItems from "./ProductListItems";
 import ReactStars from 'react-stars'
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/ratings";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishList } from "../../functions/user";
+import { toast } from "react-toastify";
 
 
 const { TabPane } = Tabs;
@@ -19,6 +21,8 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
 
     const [toolTip, setToolTip] = useState('Click to add')
     const dispatch = useDispatch()
+    const history = useHistory()
+    const { user } = useSelector(state => ({ ...state }))
 
     const handleAddToCart = () => {
         let cart = []
@@ -46,6 +50,14 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
         })
     }
 
+    const handleAddToWishlist = (e) => {
+        e.preventDefault();
+        addToWishList(product._id, user.token).then((res) => {
+            console.log("ADDED TO WISHLIST", res.data);
+            toast.success("Added to wishlist");
+            history.push("/user/wishlist");
+        });
+    };
 
 
     return (
@@ -82,6 +94,7 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                     actions={[
                         <>
                             <Tooltip title={quantity <= 0 ? 'Out of stock' : toolTip}>
+
                                 <a onClick={handleAddToCart} disabled={quantity <= 0 ? true : false}>
 
 
@@ -93,9 +106,10 @@ const SingleProduct = ({ product, onStarClick, rating, onOkClick }) => {
                                 </a>  </Tooltip>
                         </>
                         ,
-                        <Link to="/">
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                        <a onClick={handleAddToWishlist}>
                             <HeartOutlined className="text-info" /> <br /> Add to Wishlist
-                           </Link>,
+                           </a>,
 
                         <RatingModal onOkClick={onOkClick}><ReactStars
                             count={5}
