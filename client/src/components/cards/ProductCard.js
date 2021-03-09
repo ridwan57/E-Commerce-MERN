@@ -64,19 +64,14 @@ const ProductCard = ({ product }) => {
                 actions={[
                     <Link to={`/product/${slug}`}>
                         <EyeOutlined className="text-warning" /> <br /> View Product
-          </Link>, <Tooltip title={toolTip}>
-                        <a onClick={handleAddToCart}>
-                            {quantity > 0 ?
+          </Link>, <Tooltip title={quantity <= 0 ? 'Out of stock' : toolTip}>
+                        <a onClick={handleAddToCart} disabled={quantity <= 0 ? true : false}>
 
 
-                                <><ShoppingCartOutlined className="text-danger" /> <br /> 'Add to Cart'
-                                </>
-                                :
-                                <>
 
-                                    <Empty className='text-success' /> <br /> 'Out of Stock'
-                            </>
-                            }
+                            <ShoppingCartOutlined
+                                className="text-danger" /> <br /> {quantity <= 0 ? 'Out of stock' : 'Add to Cart'}
+
 
                         </a>  </Tooltip>
                     ,

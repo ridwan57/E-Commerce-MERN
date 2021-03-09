@@ -153,11 +153,11 @@ exports.createOrder = async (req, res) => {
     res.json({ ok: true });
 };
 
-exports.getOrder = async (req, res) => {
+exports.orders = async (req, res) => {
 
     const user = await User.findOne({ email: req.user.email }).exec()
     const orders = await Order.find({ orderedBy: user._id })
-        .populate("products.product", "_id title price")
+        .populate("products.product")
         .exec()
     console.log('Orders:', orders)
     res.json(orders)
