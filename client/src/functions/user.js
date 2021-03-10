@@ -60,7 +60,7 @@ export const createOrder = async (stripeResponse, authtoken) =>
 export const createCashOrderForUser = async (authtoken, COD, couponTrueOrFalse) =>
     await axios.post(
         `${process.env.REACT_APP_API}/user/cash-order`,
-        { COD, couponTrueOrFalse },
+        { COD, couponApplied: couponTrueOrFalse },
         {
             headers: {
                 authtoken,

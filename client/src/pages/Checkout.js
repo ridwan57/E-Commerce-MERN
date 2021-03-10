@@ -141,6 +141,10 @@ const Checkout = ({ history }) => {
                         type: 'COD',
                         payload: false
                     })
+                    dispatch({
+                        type: 'COUPON_APPLIED',
+                        payload: false
+                    })
                     emptyUserCart(user.token)
                     toast.success('Order Placed')
                     history.push('/user/history')

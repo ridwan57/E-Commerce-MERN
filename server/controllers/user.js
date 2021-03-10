@@ -91,6 +91,7 @@ exports.applyCouponToUserCart = async (req, res) => {
     console.log("COUPON", coupon);
 
     const validCoupon = await Coupon.findOne({ name: coupon }).exec();
+
     if (validCoupon === null) {
         return res.json({
             err: "Invalid coupon",
@@ -108,16 +109,17 @@ exports.applyCouponToUserCart = async (req, res) => {
 
     // calculate the total after discount
     let totalAfterDiscount = (
+
         cartTotal -
         (cartTotal * validCoupon.discount) / 100
     ).toFixed(2); // 99.99
-
+    console.log('totalAfterDiscount:', totalAfterDiscount)
     Cart.findOneAndUpdate(
         { orderedBy: user._id },
         { totalAfterDiscount },
         { new: true }
     );
-
+    console.log('totalAfterDiscount:', totalAfterDiscount)
     res.json(totalAfterDiscount);
 };
 
@@ -206,7 +208,7 @@ exports.removeFromWishlist = async (req, res) => {
 }
 
 exports.createCashOrder = async (req, res) => {
-    const { COD, couponTrueOrFalse } = req.body;
+    const { COD, couponApplied } = req.body;
     // if COD is true, create order with status of Cash On Delivery
 
     if (!COD) return res.status(400).send("Create cash order failed");
@@ -217,11 +219,16 @@ exports.createCashOrder = async (req, res) => {
 
     let finalAmount = 0;
 
-    if (couponTrueOrFalse && userCart.totalAfterDiscount) {
+    console.log('userCart.totalAfterDiscount:', userCart.totalAfterDiscount)
+    console.log('couponApplied:', couponApplied)
+    if (couponApplied && userCart.totalAfterDiscount) {
+
         finalAmount = userCart.totalAfterDiscount * 100;
     } else {
         finalAmount = userCart.cartTotal * 100;
+
     }
+    console.log('finalAmount:', finalAmount)
 
     let newOrder = await new Order({
         products: userCart.products,
