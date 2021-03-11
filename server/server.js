@@ -12,7 +12,7 @@ const app = express();
 
 // db
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(process.env.MONGODB_URI || 'mongodb+srv://ridwan:hacker@2020@cluster0.urokm.mongodb.net/ecommerce?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: true,
@@ -28,7 +28,7 @@ app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
 // routes middleware
-readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
+readdirSync("./server/routes").map((r) => app.use("/api", require("./routes/" + r)));
 app.use(express.static(path.join(__dirname, "../client", "build")))
 
 // //serve
@@ -37,6 +37,6 @@ app.get("*", (req, res) => {
 });
 
 // port
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

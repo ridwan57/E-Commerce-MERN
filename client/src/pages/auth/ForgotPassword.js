@@ -24,7 +24,7 @@ const ForgotPassword = ({ history }) => {
         // console.log(process.env.REACT_APP_REGISTER_REDIRECT_URL)
         e.preventDefault();
         const config = {
-            url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL,
+            url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL || "http://localhost:3000/login",
             handleCodeInApp: true,
         };
 
