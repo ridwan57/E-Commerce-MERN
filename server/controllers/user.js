@@ -125,7 +125,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 
 
 exports.createOrder = async (req, res) => {
-    // console.log(req.body);
+    // console.log(req.bodyh);
     // return;
     const { paymentIntent } = req.body.stripeResponse;
 
