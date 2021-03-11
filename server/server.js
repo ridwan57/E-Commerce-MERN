@@ -29,11 +29,11 @@ app.use(cors());
 
 // routes middleware
 readdirSync("./server/routes").map((r) => app.use("/api", require("./routes/" + r)));
-app.use(express.static(path.join(__dirname, "client", "build")))
+app.use(express.static(path.join(__dirname, "../client", "build")))
 
 // //serve
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
 });
 
 // port
