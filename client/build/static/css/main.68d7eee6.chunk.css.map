@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/index.css"],"names":[],"mappings":"AAKA,wBACE,YAAa,CACb,gBACF","file":"main.68d7eee6.chunk.css","sourcesContent":[".slider img,\n.card-image {\n  height: 450px;\n  object-fit: cover;\n}\n.card-image {\n  height: 450px;\n  object-fit: cover;\n}\n"]}
